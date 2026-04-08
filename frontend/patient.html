@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healthcare Blockchain | Patient</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #121212;
+      --panel-2: #171717;
+      --accent: #00d4ff;
+      --muted: #9ab0bb;
+      --border: #1e3642;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: var(--bg); color: #e8f8ff; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid var(--border); background: #0d0d0d; }
+    .brand { color: var(--accent); font-weight: 700; }
+    .nav-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .nav-links a { color: #e8f8ff; text-decoration: none; padding: 8px 10px; border-radius: 8px; }
+    .nav-links a.active, .nav-links a:hover { color: var(--accent); background: var(--panel-2); }
+    .container { width: min(1220px, 95%); margin: 24px auto; }
+    .panel { border: 1px solid var(--border); border-radius: 12px; background: var(--panel); padding: 16px; margin-bottom: 18px; }
+    .wallet-strip { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .mono { font-family: Consolas, monospace; }
+    h2 { color: var(--accent); margin-top: 0; }
+    form { display: grid; grid-template-columns: repeat(3, minmax(180px, 1fr)); gap: 12px; }
+    .full { grid-column: 1 / -1; }
+    label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
+    input, select {
+      width: 100%; background: #0f0f0f; border: 1px solid var(--border); border-radius: 8px;
+      color: #e8f8ff; padding: 10px;
+    }
+    button {
+      background: var(--accent); border: 1px solid var(--accent); color: #00151c;
+      padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer;
+    }
+    .status { color: var(--muted); font-size: 0.9rem; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .result-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      background: var(--panel-2);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+    @media (max-width: 980px) { form, .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body data-page="patient">
+  <nav>
+    <div class="brand">Healthcare Chain</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="hospital.html">Hospital</a>
+      <a href="doctor.html">Doctor</a>
+      <a class="active" href="patient.html">Patient</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="record.html">Records</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="panel wallet-strip">
+      <div>
+        <div>Wallet: <span id="walletAddress" class="mono">Not connected</span></div>
+        <div>Network: <span id="networkName" class="mono">-</span></div>
+      </div>
+      <button type="button" id="connectWalletBtn">Connect MetaMask</button>
+    </section>
+
+    <section id="statusBox" class="panel status">Patient registration ready.</section>
+
+    <section class="grid-2">
+      <article class="panel">
+        <h2>Register Patient + Attendant</h2>
+        <form id="patientRegisterForm">
+          <div>
+            <label for="patientId">Patient ID *</label>
+            <input id="patientId" name="patientId" type="number" min="1" required />
+          </div>
+          <div>
+            <label for="patientName">Name *</label>
+            <input id="patientName" name="patientName" type="text" required />
+          </div>
+          <div>
+            <label for="patientAge">Age *</label>
+            <input id="patientAge" name="patientAge" type="number" min="0" required />
+          </div>
+
+          <div>
+            <label for="patientGender">Gender *</label>
+            <select id="patientGender" name="patientGender" required>
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="patientHeight">Height *</label>
+            <input id="patientHeight" name="patientHeight" type="text" placeholder="e.g., 170 cm" required />
+          </div>
+          <div>
+            <label for="patientWeight">Weight *</label>
+            <input id="patientWeight" name="patientWeight" type="text" placeholder="e.g., 70 kg" required />
+          </div>
+
+          <div class="full">
+            <label for="patientAddress">Address *</label>
+            <input id="patientAddress" name="patientAddress" type="text" required />
+          </div>
+
+          <div>
+            <label for="patientPhone">Phone *</label>
+            <input id="patientPhone" name="patientPhone" type="text" required />
+          </div>
+          <div>
+            <label for="patientEmail">Email *</label>
+            <input id="patientEmail" name="patientEmail" type="email" required />
+          </div>
+          <div>
+            <label for="patientDate">Date *</label>
+            <input id="patientDate" name="patientDate" type="date" required />
+          </div>
+
+          <div>
+            <label for="attendantName">Attendant Name *</label>
+            <input id="attendantName" name="attendantName" type="text" required />
+          </div>
+          <div>
+            <label for="attendantRelation">Relation *</label>
+            <input id="attendantRelation" name="attendantRelation" type="text" required />
+          </div>
+          <div>
+            <label for="attendantPhone">Attendant Phone *</label>
+            <input id="attendantPhone" name="attendantPhone" type="text" required />
+          </div>
+
+          <div class="full">
+            <button id="patientSubmitBtn" type="submit">Register Patient</button>
+          </div>
+        </form>
+      </article>
+
+      <article class="panel">
+        <h2>View Patient by ID</h2>
+        <form id="patientLookupForm" style="grid-template-columns: 1fr;">
+          <div>
+            <label for="viewPatientId">Patient ID</label>
+            <input id="viewPatientId" type="number" min="1" required />
+          </div>
+          <div>
+            <button type="submit">Load Patient Details</button>
+          </div>
+        </form>
+        <div id="patientLookupResult" class="result-box">No patient loaded.</div>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.4/dist/web3.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

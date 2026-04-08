@@ -1,0 +1,19 @@
+{
+  "name": "healthcare-blockchain",
+  "version": "1.0.0",
+  "description": "Blockchain-based healthcare data security system using Solidity, Truffle, Ganache, and Web3.js",
+  "private": true,
+  "scripts": {
+    "compile": "truffle compile",
+    "migrate": "truffle migrate --network development --reset",
+    "seed:demo": "truffle exec scripts/seed_demo_data.js --network development",
+    "start": "lite-server --baseDir=."
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "truffle": "^5.11.5"
+  },
+  "dependencies": {
+    "web3": "^1.10.4"
+  }
+}

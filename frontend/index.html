@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healthcare Blockchain | Landing</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #111111;
+      --panel-2: #181818;
+      --accent: #00d4ff;
+      --text: #e8f8ff;
+      --muted: #9ab0bb;
+      --border: #1e3642;
+      --ok: #22c55e;
+      --warn: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      background: #0d0d0d;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: #d5eef8;
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--panel-2);
+      color: var(--accent);
+    }
+
+    .container {
+      width: min(1060px, 94%);
+      margin: 24px auto;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+    }
+
+    .wallet-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .wallet-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .mono {
+      font-family: Consolas, monospace;
+      color: var(--text);
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #0f1518;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--warn);
+    }
+
+    .dot.connected {
+      background: var(--ok);
+    }
+
+    button, .button-link {
+      border: 1px solid var(--accent);
+      color: #00151c;
+      background: var(--accent);
+      padding: 10px 14px;
+      border-radius: 9px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s ease;
+    }
+
+    button:hover, .button-link:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .status-box {
+      padding: 12px;
+      margin-bottom: 20px;
+      color: #95cfdf;
+      font-size: 0.92rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #0e1417;
+    }
+
+    .hero {
+      padding: 26px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: linear-gradient(160deg, #121212, #0f1a21);
+    }
+
+    h1 { margin-top: 0; color: var(--accent); }
+    p { color: var(--muted); line-height: 1.6; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      background: var(--panel-2);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .card p { min-height: 70px; }
+
+    @media (max-width: 920px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-page="index">
+  <nav>
+    <div class="brand">Healthcare Chain</div>
+    <div class="nav-links">
+      <a class="active" href="index.html">Home</a>
+      <a href="hospital.html">Hospital</a>
+      <a href="doctor.html">Doctor</a>
+      <a href="patient.html">Patient</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="record.html">Records</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="wallet-strip panel">
+      <div class="wallet-meta">
+        <span>Wallet: <span id="walletAddress" class="mono">Not connected</span></span>
+        <span>Network: <span id="networkName" class="mono">-</span></span>
+        <span class="status-chip">
+          <span id="networkStatusDot" class="dot"></span>
+          <span id="networkConnectionStatus">Disconnected</span>
+        </span>
+      </div>
+      <button id="connectWalletBtn" type="button">Connect MetaMask</button>
+    </section>
+
+    <section id="statusBox" class="status-box">Ready. Connect wallet to begin.</section>
+
+    <section class="hero">
+      <h1>Blockchain Healthcare Data Security</h1>
+      <p>
+        Securely manage hospitals, doctors, patients, and medical records on Ethereum (Ganache) with
+        patient-controlled access permissions and immutable on-chain access logs.
+      </p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h3>Hospital Admin</h3>
+        <p>Register hospitals and manage all healthcare institutions from a single trusted admin panel.</p>
+        <a class="button-link" href="hospital.html">Login as Hospital Admin</a>
+      </article>
+
+      <article class="card">
+        <h3>Doctor</h3>
+        <p>Register doctor profiles, retrieve patient details, and maintain encrypted medical record trails.</p>
+        <a class="button-link" href="doctor.html">Login as Doctor</a>
+      </article>
+
+      <article class="card">
+        <h3>Patient</h3>
+        <p>Register patient profile, control doctor access, and inspect complete history plus access logs.</p>
+        <a class="button-link" href="patient.html">Login as Patient</a>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.4/dist/web3.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

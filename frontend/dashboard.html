@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healthcare Blockchain | Patient Dashboard</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #121212;
+      --panel-2: #171717;
+      --accent: #00d4ff;
+      --muted: #9ab0bb;
+      --border: #1e3642;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: var(--bg); color: #e8f8ff; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid var(--border); background: #0d0d0d; }
+    .brand { color: var(--accent); font-weight: 700; }
+    .nav-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .nav-links a { color: #e8f8ff; text-decoration: none; padding: 8px 10px; border-radius: 8px; }
+    .nav-links a.active, .nav-links a:hover { color: var(--accent); background: var(--panel-2); }
+    .container { width: min(1220px, 95%); margin: 24px auto; }
+    .panel { border: 1px solid var(--border); border-radius: 12px; background: var(--panel); padding: 16px; margin-bottom: 18px; }
+    .wallet-strip { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .mono { font-family: Consolas, monospace; }
+    h2, h3 { color: var(--accent); margin-top: 0; }
+    button {
+      background: var(--accent); border: 1px solid var(--accent); color: #00151c;
+      padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer;
+    }
+    .status { color: var(--muted); font-size: 0.9rem; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .summary { display: grid; gap: 6px; color: #cde8f2; line-height: 1.6; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid var(--border); padding: 10px; text-align: left; font-size: 0.9rem; vertical-align: top; }
+    th { background: #0f1a20; color: var(--accent); }
+    ul { margin: 0; padding-left: 18px; }
+    form { display: flex; gap: 10px; flex-wrap: wrap; }
+    input {
+      min-width: 180px; background: #0f0f0f; border: 1px solid var(--border); border-radius: 8px;
+      color: #e8f8ff; padding: 10px;
+    }
+    @media (max-width: 1000px) { .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body data-page="dashboard">
+  <nav>
+    <div class="brand">Healthcare Chain</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="hospital.html">Hospital</a>
+      <a href="doctor.html">Doctor</a>
+      <a href="patient.html">Patient</a>
+      <a class="active" href="dashboard.html">Dashboard</a>
+      <a href="record.html">Records</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="panel wallet-strip">
+      <div>
+        <div>Wallet: <span id="walletAddress" class="mono">Not connected</span></div>
+        <div>Network: <span id="networkName" class="mono">-</span></div>
+        <div>Patient ID: <span id="dashboardPatientId" class="mono">-</span></div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button type="button" id="connectWalletBtn">Connect MetaMask</button>
+        <button type="button" id="refreshDashboardBtn">Refresh Dashboard</button>
+      </div>
+    </section>
+
+    <section id="statusBox" class="panel status">Dashboard loading...</section>
+
+    <section class="panel">
+      <h2>Patient Profile</h2>
+      <div id="patientOverview" class="summary">No data loaded yet.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Full Medical History</h2>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Record ID</th>
+              <th>Doctor ID</th>
+              <th>Hospital ID</th>
+              <th>Diagnosis</th>
+              <th>Prescription</th>
+              <th>Treatment</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="dashboardHistoryBody">
+            <tr><td colspan="7">No records loaded.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <article class="panel">
+        <h3>Current Medications</h3>
+        <ul id="dashboardMedicationList">
+          <li>No medications available.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h3>Access Control Panel</h3>
+        <form id="dashboardGrantForm" style="margin-bottom: 10px;">
+          <input id="grantDoctorId" type="number" min="1" placeholder="Doctor ID to grant" required />
+          <button type="submit">Grant Access</button>
+        </form>
+
+        <div style="overflow-x: auto; margin-top: 12px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Doctor ID</th>
+                <th>Name</th>
+                <th>Specialisation</th>
+                <th>Hospital ID</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="accessDoctorsBody">
+              <tr><td colspan="5">No access entries loaded.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h3>Access Log (On-Chain)</h3>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Who Viewed</th>
+              <th>Doctor ID</th>
+              <th>Hospital ID</th>
+              <th>Action</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="dashboardAccessLogBody">
+            <tr><td colspan="5">No logs loaded.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.4/dist/web3.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

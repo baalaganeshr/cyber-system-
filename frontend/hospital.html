@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healthcare Blockchain | Hospital Admin</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #121212;
+      --panel-2: #171717;
+      --accent: #00d4ff;
+      --muted: #9ab0bb;
+      --border: #1e3642;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: var(--bg); color: #e8f8ff; }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 24px; border-bottom: 1px solid var(--border); background: #0d0d0d;
+    }
+    .brand { color: var(--accent); font-weight: 700; }
+    .nav-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .nav-links a { color: #e8f8ff; text-decoration: none; padding: 8px 10px; border-radius: 8px; }
+    .nav-links a.active, .nav-links a:hover { color: var(--accent); background: var(--panel-2); }
+    .container { width: min(1180px, 95%); margin: 24px auto; }
+    .panel {
+      border: 1px solid var(--border); border-radius: 12px; background: var(--panel); padding: 16px; margin-bottom: 18px;
+    }
+    .wallet-strip { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .mono { font-family: Consolas, monospace; }
+    h2 { color: var(--accent); margin-top: 0; }
+    form { display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 12px; }
+    .full { grid-column: 1 / -1; }
+    label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
+    input, textarea {
+      width: 100%; background: #0f0f0f; border: 1px solid var(--border); border-radius: 8px;
+      color: #e8f8ff; padding: 10px;
+    }
+    button {
+      background: var(--accent); border: 1px solid var(--accent); color: #00151c;
+      padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer;
+    }
+    .status { color: var(--muted); font-size: 0.9rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td {
+      border: 1px solid var(--border);
+      text-align: left;
+      padding: 10px;
+      font-size: 0.9rem;
+      vertical-align: top;
+    }
+    th { background: #0f1a20; color: var(--accent); }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 900px) { form { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body data-page="hospital">
+  <nav>
+    <div class="brand">Healthcare Chain</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a class="active" href="hospital.html">Hospital</a>
+      <a href="doctor.html">Doctor</a>
+      <a href="patient.html">Patient</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="record.html">Records</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="panel wallet-strip">
+      <div>
+        <div>Wallet: <span id="walletAddress" class="mono">Not connected</span></div>
+        <div>Network: <span id="networkName" class="mono">-</span></div>
+      </div>
+      <button type="button" id="connectWalletBtn">Connect MetaMask</button>
+    </section>
+
+    <section id="statusBox" class="panel status">Hospital admin panel ready.</section>
+
+    <section class="panel">
+      <h2>Register Hospital</h2>
+      <form id="hospitalRegisterForm">
+        <div>
+          <label for="hospitalId">Hospital ID *</label>
+          <input id="hospitalId" name="hospitalId" type="number" min="1" required />
+        </div>
+        <div>
+          <label for="hospitalName">Hospital Name *</label>
+          <input id="hospitalName" name="hospitalName" type="text" required />
+        </div>
+        <div>
+          <label for="hospitalAddress">Address *</label>
+          <input id="hospitalAddress" name="hospitalAddress" type="text" required />
+        </div>
+        <div>
+          <label for="hospitalSpecialisation">Specialisation *</label>
+          <input id="hospitalSpecialisation" name="hospitalSpecialisation" type="text" required />
+        </div>
+        <div class="full">
+          <button id="hospitalSubmitBtn" type="submit">Register Hospital</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="toolbar">
+        <h2 style="margin: 0;">Registered Hospitals</h2>
+        <button id="loadHospitalsBtn" type="button">Refresh Hospitals</button>
+      </div>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital ID</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Specialisation</th>
+            </tr>
+          </thead>
+          <tbody id="hospitalsTableBody">
+            <tr><td colspan="4">No hospitals loaded.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.4/dist/web3.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
